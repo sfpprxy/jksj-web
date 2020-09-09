@@ -64,102 +64,104 @@
 
 <script>
 // import { validUsername } from "@/utils/validate";
-import axios from "axios";
+import axios from 'axios'
 
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!value) {
-        callback(new Error("请输入正确的账号"));
+        callback(new Error('请输入正确的账号'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error("请输入正确的密码"));
+        callback(new Error('请输入正确的密码'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       loginForm: {
-        username: "",
-        password: "",
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername },
+          { required: true, trigger: 'blur', validator: validateUsername }
         ],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword },
-        ],
+          { required: true, trigger: 'blur', validator: validatePassword }
+        ]
       },
       loading: false,
-      passwordType: "password",
-      redirect: undefined,
-    };
+      passwordType: 'password',
+      redirect: undefined
+    }
   },
   watch: {
     $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect;
+      handler: function(route) {
+        this.redirect = route.query && route.query.redirect
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     showPwd() {
-      if (this.passwordType === "password") {
-        this.passwordType = "";
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
       } else {
-        this.passwordType = "password";
+        this.passwordType = 'password'
       }
       this.$nextTick(() => {
-        this.$refs.password.focus();
-      });
+        this.$refs.password.focus()
+      })
     },
     handleLogin() {
       const options = {
-        url: "http://sh.asdk.io:8888/jksj/login",
-        method: "POST",
+        url: 'http://sh.asdk.io:8888/jksj/login',
+        method: 'POST',
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json;charset=UTF-8",
+          Accept: 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8'
         },
         data: {
           username: this.loginForm.username,
-          password: this.loginForm.password,
-        },
-      };
+          password: this.loginForm.password
+        }
+      }
       axios(options).then((res) => {
-        if (res.status == 200) {
-              alert("登录成功")
-              let userInfo={
-                id:res.data.id,
-                name:res.data.name,
-                token:res.data.token,
-                password:res.data.password,
-                role:res.data.role
-              }
-              localStorage.setItem("userInfo",JSON.stringify(userInfo));
-              this.loading = true;
-              this.$store
-                .dispatch("user/login", this.loginForm)
-                .then(() => {
-                  this.$router.push({ path: this.redirect || "/" });
-                  this.loading = false;
-                })
-                .catch(() => {
-                  this.loading = false;
-                });
-            }
-        console.log(res);
-      });
-    },
-  },
-};
+        if (res.status === 200) {
+          alert('登录成功')
+          const userInfo = {
+            id: res.data.id,
+            name: res.data.name,
+            token: res.data.token,
+            password: res.data.password,
+            role: res.data.role
+          }
+          localStorage.setItem('userInfo', JSON.stringify(userInfo))
+          this.loading = true
+          this.$store
+            .dispatch('user/login', this.loginForm)
+            .then(() => {
+              this.$router.push({ path: this.redirect || '/' })
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+            })
+        }
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss">
