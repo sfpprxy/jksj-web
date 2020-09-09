@@ -19,7 +19,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="请输入您的账号"
+          placeholder="请使用纬衡合同系统的账号登录"
           name="username"
           type="text"
           tabindex="1"
@@ -134,8 +134,9 @@ export default {
         }
       }
       axios(options).then((res) => {
+          this.loading = true
         if (res.status === 200) {
-          alert('登录成功')
+          // alert('登录成功')
           const userInfo = {
             id: res.data.id,
             name: res.data.name,
@@ -144,7 +145,6 @@ export default {
             role: res.data.role
           }
           localStorage.setItem('userInfo', JSON.stringify(userInfo))
-          this.loading = true
           this.$store
             .dispatch('user/login', this.loginForm)
             .then(() => {
