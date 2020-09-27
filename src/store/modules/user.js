@@ -1,4 +1,5 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout } from '@/api/user'
+import { getInfo } from '@/api/getInfo'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -21,10 +22,10 @@ const mutations = {
   },
   SET_NAME: (state, name) => {
     state.name = name
-  },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
   }
+  // SET_AVATAR: (state, avatar) => {
+  //   state.avatar = avatar
+  // },
 }
 
 const actions = {
@@ -33,9 +34,9 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        console.log('response', response)
+        commit('SET_TOKEN', response.token)
+        setToken(response.token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -47,17 +48,15 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
-        const { data } = response
-
-        if (!data) {
-          return reject('Verification failed, please Login again.')
-        }
-
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
+        console.log(response)
+        // const { data } = response
+        // if (!data) {
+        //   return reject('Verification failed, please Login again.')
+        // }
+        // const { name, avatar } = data
+        // commit('SET_NAME', name)
+        // // commit('SET_AVATAR', avatar)
+        // resolve(data)
       }).catch(error => {
         reject(error)
       })
@@ -67,7 +66,7 @@ const actions = {
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
+      logout().then(() => {
         removeToken() // must remove  token  first
         resetRouter()
         commit('RESET_STATE')

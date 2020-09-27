@@ -64,7 +64,6 @@
 
 <script>
 // import { validUsername } from "@/utils/validate";
-import axios from 'axios'
 
 export default {
   name: 'Login',
@@ -77,7 +76,7 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
+      if (value.length < 1) {
         callback(new Error('请输入正确的密码'))
       } else {
         callback()
@@ -121,44 +120,15 @@ export default {
       })
     },
     handleLogin() {
-      const options = {
-        url: 'http://sh.asdk.io:8888/jksj/login',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json;charset=UTF-8'
-        },
-        data: {
-          username: this.loginForm.username,
-          password: this.loginForm.password
-        }
-      }
-      axios(options).then((res) => {
-          this.loading = true
-        if (res.status === 200) {
-          // alert('登录成功')
-          const userInfo = {
-            id: res.data.id,
-            name: res.data.name,
-            token: res.data.token,
-            password: res.data.password,
-            role: res.data.role
-          }
-          localStorage.setItem('userInfo', JSON.stringify(userInfo))
-          this.$store
-            .dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        }
-        console.log(res)
-      }).catch(err => {
-        console.log(err)
-      })
+      this.loading = true
+      this.$store.dispatch('user/login', this.loginForm)
+        .then(() => {
+          this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+          this.loading = false
+        })
+        .catch(() => {
+          this.loading = false
+        })
     }
   }
 }

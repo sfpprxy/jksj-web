@@ -35,7 +35,6 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import axios from 'axios'
 
 export default {
   components: {
@@ -53,35 +52,6 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-      const options = {
-        url: 'http://sh.asdk.io:8888/jksj/logout',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json;charset=UTF-8',
-          token: userInfo.token
-        },
-        data: {
-        }
-      }
-      axios(options).then((res) => {
-        console.log('res', res)
-        // localStorage.removeItem('userInfo')
-        // if (res.status == 200) {
-        //       localStorage.setItem("userInfo",JSON.stringify(userInfo));
-        //       this.loading = true;
-        //       this.$store
-        //         .dispatch("user/login", this.loginForm)
-        //         .then(() => {
-        //           this.$router.push({ path: this.redirect || "/" });
-        //           this.loading = false;
-        //         })
-        //         .catch(() => {
-        //           this.loading = false;
-        //         });
-        //     }
-      })
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
