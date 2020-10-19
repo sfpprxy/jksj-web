@@ -29,7 +29,7 @@ module.exports = [
     url: '/login',
     type: 'post',
     response: config => {
-      console.log('333333',response)
+      console.log('5555',response)
       const { username } = config.body
       const token = tokens[username]
 

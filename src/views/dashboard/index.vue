@@ -6,12 +6,12 @@
         <!-- <div class="nameText">Hello,{{name}}</div> -->
         <div class="timeText">
           您已使用远程办公
-          <span>243</span>次
+          <span>{{ timeUsed }}</span>次
         </div>
         <div class="timeText">
           总使用时长：
-          <span>36</span>小时
-          <span>28</span>分钟
+          <span>{{ timeUsedHour }}</span>小时
+          <span>{{ timeUsedMin }}</span>分钟
         </div>
       </div>
     </div>
@@ -24,19 +24,13 @@
         <span>您已申请远程办公：</span>
         <el-link target="_blank" :href="link" type="success">{{ link }}</el-link>
       </p>
-      <p> 距离使用时间还剩：<span style="color:#EB147F">{{ hour }}小时{{ minute }}分{{ seconde }}秒</span></p>
+      <p class="timetxt"> <span>距离使用时间还剩：</span><span style="color:#EB147F">{{ hour }}小时{{ minute }}分{{ seconde }}秒</span></p>
     </div>
     <el-dialog title="请输入远程申请的时间" :visible.sync="selectTimeVisible">
-      <el-input-number v-model="num" size="large" :min="0" :max="4" label="描述文字" />
+      <el-input-number v-model="num" size="large" step="0.5" :min="0" step-strictly="true" :max="4" label="描述文字" />
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="applyWork">确 定</el-button>
-      </div>
-    </el-dialog>
-    <el-dialog title="申请成功" :visible.sync="linkVisible">
-      <span>您的远程链接为：{{ link }}</span>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="applyOk">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -59,7 +53,10 @@ export default {
       minute: '',
       hour: '',
       name: '',
-      timeRemaining: ''
+      timeRemaining: '',
+      timeUsed: '',
+      timeUsedHour: 0,
+      timeUsedMin: ''
     }
   },
   computed: {
@@ -72,6 +69,17 @@ export default {
       applyStatus().then(res => {
         console.log('resres', res)
         this.link = res.link
+        this.timeUsed = res.timeUsed
+        let seNum = res.timeUsedSec
+
+        if (seNum >= 3600) {
+          this.timeUsedHour = parseInt(seNum / (60 * 60))
+          seNum = seNum % (60 * 60)
+          this.timeUsedMin = parseInt(seNum / 60)
+          console.log('timeUsedMin', this.timeUsedMin)
+        } else {
+          this.timeUsedSec = seNum
+        }
         this.timeRemaining = res.timeRemaining
         if (this.timeRemaining > 0) {
           this.useProxy = false
@@ -79,24 +87,29 @@ export default {
           this.showTime()
         }
       }).catch(error => {
-        console.log('error1', error)
+        if (error.response.data.code === 'ERR_UNAUTHORIZED') {
+          alert(error.response.data.error)
+          this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+        } else {
+          console.log('error', error)
+        }
       })
     },
     applyWork() {
-      applyWork({ time: this.num }).then(res => {
+      applyWork({ hour: this.num }).then(res => {
         if (res.link) {
+          this.$message({
+            message: '远程申请成功',
+            type: 'success'
+          })
           this.link = res.link
           this.selectTimeVisible = false
-          this.linkVisible = true
+          this.showData()
         }
       }).catch(error => {
         console.log('error2', error)
       })
       this.selectTimeVisible = false
-    },
-    applyOk() {
-      this.linkVisible = false
-      this.showData()
     },
     showTime() {
       const that = this
@@ -121,15 +134,20 @@ export default {
 }
 </script>
 <style>
+  .timetxt span{
+    display: inline-block;
+    vertical-align: middle;
+  }
   .el-dialog__body{
     text-align: center!important;
   }
   .applyedCon{
     background: #F1F8FF;
     border-radius: 8px;
+    box-sizing: border-box;
     /* box-shadow: 0 0 8px rgba(0, 0, 0, .1); */
     padding: 18px 0;
-    width: 60%;
+    width: 70%;
     margin: 0 auto;
     text-align: center;
     font-weight: 700;
@@ -162,35 +180,35 @@ export default {
 }
 .bgImg {
   display: block;
-  width: 600px;
-  height: 475px;
+  width: 540px;
+  height: 427px;
   position: absolute;
   z-index: 11;
 }
 .showCon {
-  width: 600px;
-  height: 475px;
+  width: 540px;
+  height: 427px;
   margin: 16px auto;
   position: relative;
 }
 .txtCon {
   width: 100%;
   text-align: center;
-  line-height: 1.5;
+  line-height: 1.6;
   position: absolute;
   left: 50%;
+  top: 28px;
   transform: translateX(-50%);
   letter-spacing: 2px;
+  font-size: 28px;
+  color: #304156;
 }
 .nameText {
   font-size: 36px;
   font-weight: 700;
   padding-top: 16px;
 }
-.txtCon {
-  font-size: 28px;
-  color: #304156;
-}
+
 .timeText span {
   font-size: 52px;
   font-weight: 700;

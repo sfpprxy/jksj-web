@@ -127,10 +127,8 @@ export default {
           this.loading = false
         })
         .catch(error => {
-          console.error('打印出整个错误的body', error.response.data)
-          console.error('打印出错误body的说明', error.response.data.error)
-          console.error('打印出错误body的短id', error.response.data.shortId)
-          console.error('打印出错误body的长id', error.response.data.uuid)
+          alert(error.response.data.error)
+          // console.error('打印出整个错误的body', error.response.data)
           this.loading = false
         })
     }

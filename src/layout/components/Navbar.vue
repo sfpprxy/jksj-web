@@ -7,15 +7,17 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <!-- <img src="@/assets/images/avatar.jpg" class="user-avatar"> -->
+          <p>{{ name }}</p>
+          <!-- <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar"> -->
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
+          <!-- <router-link to="/">
             <el-dropdown-item>
               个人中心
             </el-dropdown-item>
-          </router-link>
+          </router-link> -->
           <!-- <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
@@ -35,11 +37,17 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import { userInfo } from '@/api/proxy'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger
+  },
+  data() {
+    return {
+      name: ''
+    }
   },
   computed: {
     ...mapGetters([
@@ -47,7 +55,18 @@ export default {
       'avatar'
     ])
   },
+  mounted() {
+    this.showData()
+  },
   methods: {
+    showData() {
+      userInfo().then(res => {
+        this.name = res.name
+        console.log('sasasas', res)
+      }).catch(error => {
+        console.log('error11', error)
+      })
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
@@ -58,8 +77,17 @@ export default {
   }
 }
 </script>
+<style>
 
+</style>
 <style lang="scss" scoped>
+.navbar .right-menu .avatar-container .avatar-wrapper .el-icon-caret-bottom{
+  top: 1px!important;
+  font-size: 20px!important;
+}
+.navbar .right-menu{
+  line-height: 1.75!important;
+}
 .navbar {
   height: 50px;
   overflow: hidden;
