@@ -29,7 +29,7 @@
     <el-dialog title="请输入远程申请的时间" :visible.sync="selectTimeVisible">
       <el-input-number v-model="num" size="large" step="0.5" :min="0" step-strictly="true" :max="4" label="描述文字" />
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="selectTimeVisible = false">取 消</el-button>
         <el-button type="primary" @click="applyWork">确 定</el-button>
       </div>
     </el-dialog>
@@ -88,7 +88,6 @@ export default {
         }
       }).catch(error => {
         if (error.response.data.code === 'ERR_UNAUTHORIZED') {
-          alert(error.response.data.error)
           this.$router.push(`/login?redirect=${this.$route.fullPath}`)
         } else {
           console.log('error', error)
