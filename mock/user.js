@@ -29,7 +29,8 @@ module.exports = [
     url: '/login',
     type: 'post',
     response: config => {
-      console.log('5555',response)
+      console.log('into mock user.js /login')
+      console.log('你写的登录代码没有被运行到，实际运行的是这里的代码，搜索mock了解一下相关概念')
       const { username } = config.body
       const token = tokens[username]
 
