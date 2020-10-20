@@ -5,7 +5,7 @@
       <div class="txtCon">
         <!-- <div class="nameText">Hello,{{name}}</div> -->
         <div class="timeText">
-          您已使用远程办公
+          {{name}}，您已使用远程办公
           <span>{{ timeUsed }}</span>次
         </div>
         <div class="timeText">
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { applyWork, applyStatus } from '@/api/proxy'
+import { applyWork, applyStatus, userInfo} from '@/api/proxy'
 
 export default {
   name: 'Dashboard',
@@ -93,6 +93,11 @@ export default {
         } else {
           console.log('error', error)
         }
+      })
+      userInfo().then(res => {
+        this.name = res.name
+      }).catch(error => {
+        console.log('error11', error)
       })
     },
     applyWork() {
@@ -150,8 +155,8 @@ export default {
     width: 70%;
     margin: 0 auto;
     text-align: center;
-    font-weight: 700;
-    font-size: 18px;
+    /* font-weight: 700; */
+    font-size: 24px;
     color: #304156;
   }
   .applyedCon p span{
@@ -159,7 +164,8 @@ export default {
     vertical-align: middle;
   }
   .el-link--inner{
-    font-size: 32px;
+    font-size: 24px;
+    color: #267FE2;
   }
 </style>
 <style lang="scss" scoped>
@@ -204,14 +210,14 @@ export default {
   color: #304156;
 }
 .nameText {
-  font-size: 36px;
-  font-weight: 700;
-  padding-top: 16px;
+  font-size: 32px;
+  // font-weight: 700;
+  // padding-top: 12px;
 }
 
 .timeText span {
-  font-size: 52px;
-  font-weight: 700;
+  font-size: 36px;
+  // font-weight: 700;
   color: #eb147f;
 }
 .openBtn {

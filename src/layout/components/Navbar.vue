@@ -8,16 +8,16 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <!-- <img src="@/assets/images/avatar.jpg" class="user-avatar"> -->
-          <p>{{ name }}</p>
+          <p>{{ account }}</p>
           <!-- <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar"> -->
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <!-- <router-link to="/">
+          <!-- <router-link to="/"> -->
             <el-dropdown-item>
-              个人中心
+              {{name}}
             </el-dropdown-item>
-          </router-link> -->
+          <!-- </router-link> -->
           <!-- <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
@@ -46,7 +46,8 @@ export default {
   },
   data() {
     return {
-      name: ''
+      name: '',
+      account:''
     }
   },
   computed: {
@@ -62,6 +63,7 @@ export default {
     showData() {
       userInfo().then(res => {
         this.name = res.name
+        this.account = res.account
         console.log('sasasas', res)
       }).catch(error => {
         console.log('error11', error)
