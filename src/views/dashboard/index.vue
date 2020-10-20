@@ -78,7 +78,8 @@ export default {
           this.timeUsedMin = parseInt(seNum / 60)
           console.log('timeUsedMin', this.timeUsedMin)
         } else {
-          this.timeUsedSec = seNum
+          // console.log('seNum',seNum)
+          this.timeUsedMin = parseInt(seNum / 60)
         }
         this.timeRemaining = res.timeRemaining
         if (this.timeRemaining > 0) {
