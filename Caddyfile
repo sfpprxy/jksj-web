@@ -1,3 +1,8 @@
-localhost 
-
-root * /Users/joe/Dropbox/Work/jky/jksj-web/dist
+oa.zjjksjy.com {
+    root * /root/jksj-web/dist
+    file_server
+    route /api/* {
+        uri replace /api/ /jksj/
+        reverse_proxy localhost:8888
+    }
+}
