@@ -14,9 +14,9 @@
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <!-- <router-link to="/"> -->
-            <el-dropdown-item>
-              {{name}}
-            </el-dropdown-item>
+          <el-dropdown-item>
+            {{ name }}
+          </el-dropdown-item>
           <!-- </router-link> -->
           <!-- <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
             <el-dropdown-item>Github</el-dropdown-item>
@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       name: '',
-      account:''
+      account: ''
     }
   },
   computed: {

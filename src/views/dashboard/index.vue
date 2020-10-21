@@ -5,7 +5,7 @@
       <div class="txtCon">
         <!-- <div class="nameText">Hello,{{name}}</div> -->
         <div class="timeText">
-          {{name}}，您已使用远程办公
+          {{ name }}，您已使用远程办公
           <span>{{ timeUsed }}</span>次
         </div>
         <div class="timeText">
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { applyWork, applyStatus, userInfo} from '@/api/proxy'
+import { applyWork, applyStatus, userInfo } from '@/api/proxy'
 
 export default {
   name: 'Dashboard',
