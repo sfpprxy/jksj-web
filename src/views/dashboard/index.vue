@@ -26,7 +26,7 @@
       </p>
       <p class="timetxt"> <span>距离使用时间结束还剩：</span><span style="color:#EB147F">{{ hour }}小时{{ minute }}分{{ seconde }}秒</span></p>
     </div>
-    <el-dialog title="请输入远程申请的时间" :visible.sync="selectTimeVisible">
+    <el-dialog title="请选择需使用远程办公的时长(小时)" :visible.sync="selectTimeVisible">
       <el-input-number v-model="num" size="large" step="0.5" :min="0" step-strictly="true" :max="4" label="描述文字" />
       <div slot="footer" class="dialog-footer">
         <el-button @click="selectTimeVisible = false">取 消</el-button>
