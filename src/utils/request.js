@@ -4,8 +4,8 @@ import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
-  // oa.zjjksjy.com
   baseURL: 'https://oa.zjjksjy.com/api',
+  // baseURL: 'http://localhost:8888/jksj',
   // baseURL: 'http://sh.asdk.io:8888/jksj',
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
