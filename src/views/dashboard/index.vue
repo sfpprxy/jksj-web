@@ -21,10 +21,10 @@
     </div>
     <div v-show="hasApply" class="applyedCon">
       <p>
-        <span>您已申请远程办公：</span>
-        <el-link target="_blank" :href="link" type="success">{{ link }}</el-link>
+        <span>本次远程办公入口：</span>
+        <el-link target="_blank" :href="link">{{ link }}</el-link>
       </p>
-      <p class="timetxt"> <span>距离使用时间还剩：</span><span style="color:#EB147F">{{ hour }}小时{{ minute }}分{{ seconde }}秒</span></p>
+      <p class="timetxt"> <span>距离使用时间结束还剩：</span><span style="color:#EB147F">{{ hour }}小时{{ minute }}分{{ seconde }}秒</span></p>
     </div>
     <el-dialog title="请输入远程申请的时间" :visible.sync="selectTimeVisible">
       <el-input-number v-model="num" size="large" step="0.5" :min="0" step-strictly="true" :max="4" label="描述文字" />
