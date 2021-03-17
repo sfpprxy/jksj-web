@@ -1,6 +1,7 @@
 oa.zjjksjy.com {
     root * /root/jksj-web/dist
     file_server
+    encode gzip
     route /api/* {
         uri replace /api/ /jksj/
         reverse_proxy localhost:8888
